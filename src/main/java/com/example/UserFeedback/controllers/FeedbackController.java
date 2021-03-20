@@ -28,17 +28,22 @@ public class FeedbackController {
 	@PostMapping(value = "/feedback", consumes ={"application/json", "application/x-www-form-urlencoded"})
 	
 	//@RequestBody Feedback newFeedback
-	public Feedback addNewFeedback(@RequestParam(value="user") String userName, 
+	public String addNewFeedback(@RequestParam(value="user") String userName, 
 			@RequestParam(value="rating") int userRating, @RequestParam(value="comment") String userComment) {
 		// TODO: Do something useful here.  
 		// Add the Feedback.
 		//System.out.print("executing add " + newFeedback);
 		//return feedbackService.addFeedback(newFeedback);
-		Feedback fb = new Feedback();
-		fb.setComments(userComment);
-		fb.setRating(userRating);
-		fb.setUser(userName);
-		return feedbackService.addFeedback(fb);
+		if (!userName.isEmpty() && !userComment.isEmpty()) {
+			Feedback fb = new Feedback();
+			fb.setComments(userComment);
+			fb.setRating(userRating);
+			fb.setUser(userName);
+			feedbackService.addFeedback(fb);
+			return "finished";
+		}
+		
+		else return "error";
 		 
 		
 		//return new Feedback();  // Change this.
